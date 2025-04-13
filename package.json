@@ -1,25 +1,17 @@
 {
-  "name": "text-to-yaml-parser",
+  "name": "idress-modules",
   "version": "1.0.0",
-  "description": "テキストファイルをYAML形式に変換するツール",
-  "main": "dist/parse_to_yaml.js",
+  "description": "テキストファイルをYAML形式に変換し、Cloudflare Workersで提供するAPIサービス",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.json",
     "build:prod": "tsc -p tsconfig.prod.json",
-    "start": "node dist/parse_to_yaml.js",
-    "api:build": "tsc",
-    "api:build:prod": "tsc -p tsconfig.prod.json",
-    "api:start": "node dist/api.js",
     "dev": "wrangler dev src/api.ts",
-    "deploy": "npm run build:prod && wrangler deploy src/api.ts"
+    "deploy": "wrangler deploy src/api.ts",
+    "test": "node test/test.js"
   },
   "dependencies": {
-    "@hono/node-server": "^1.14.1",
-    "@types/node-fetch": "^2.6.12",
-    "axios": "^1.8.4",
     "hono": "^4.7.6",
-    "js-yaml": "^4.1.0",
-    "node-fetch": "^3.3.2"
+    "js-yaml": "^4.1.0"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250413.0",

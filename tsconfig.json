@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2021",
-    "module": "CommonJS",
+    "module": "ESNext",
     "lib": ["ES2021", "WebWorker"],
     "outDir": "./dist",
     "rootDir": "./",
@@ -10,7 +10,9 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "types": ["@cloudflare/workers-types", "node"]
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "types": ["@cloudflare/workers-types"]
   },
   "include": [
     "src/**/*.ts",

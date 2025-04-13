@@ -2,7 +2,7 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { textToObject } from './idress_converter';
 import { validateIdressData, getValidationResultText } from './idress_validator';
-import { MemoryRepository } from './memory_repository';
+import { CloudflareKVRepositoryFactory } from './cloudflare_kv_repository';
 import { IdressData } from './idress_converter';
 
 // Honoアプリケーションの作成
@@ -11,8 +11,23 @@ const app = new Hono();
 // CORSの設定
 app.use('/*', cors());
 
-// リポジトリの初期化（Cloudflare Workers環境ではMemoryRepositoryを使用）
-const repository = new MemoryRepository();
+// リポジトリの初期化（Cloudflare Workers KVを使用）
+// 注: このコードはCloudflare Workers環境で実行されることを前提としています
+// env.IDRESS_KVはwrangler.tomlで設定されたKV Namespaceのバインディングです
+let repository: any;
+
+// Honoアプリケーションのハンドラー関数
+export default {
+  fetch(request: Request, env: any, ctx: any) {
+    // リポジトリの初期化
+    if (!repository) {
+      const factory = new CloudflareKVRepositoryFactory();
+      repository = factory.createRepository({ namespace: env.IDRESS_KV });
+    }
+    
+    return app.fetch(request, env, ctx);
+  }
+};
 
 // ルートエンドポイント
 app.get('/', (c) => {
@@ -208,5 +223,4 @@ app.post('/store', async (c) => {
   }
 });
 
-// Cloudflare Workersのエクスポート
-export default app;
+// 注: Cloudflare Workersのエクスポートは上部で定義されています
