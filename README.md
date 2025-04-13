@@ -14,9 +14,9 @@
 
 このライブラリは以下の3つの主要モジュールで構成されています：
 
-- [**idress_converter**](./CONVERTER.md) - テキスト形式とYAML形式の相互変換、データ操作
-- [**idress_validator**](./VALIDATOR.md) - データの検証と自動修正
-- [**idress_repository**](./REPOSITORY.md) - アイドレスデータの永続化と取得
+- [**idress_converter**](./docs/CONVERTER.md) - テキスト形式とYAML形式の相互変換、データ操作
+- [**idress_validator**](./docs/VALIDATOR.md) - データの検証と自動修正
+- [**idress_repository**](./docs/REPOSITORY.md) - アイドレスデータの永続化と取得
 
 ## インストール
 
@@ -118,14 +118,14 @@ APIサーバーを使用して、テキスト形式のデータをJSON形式に�
 npm run api:start
 ```
 
-詳細は [API_README.md](./API_README.md) を参照してください。
+詳細は [API_README.md](./docs/API_README.md) を参照してください。
 
 ## 詳細ドキュメント
 
-- [idress_converter モジュール](./CONVERTER.md)
-- [idress_validator モジュール](./VALIDATOR.md)
-- [idress_repository モジュール](./REPOSITORY.md)
-- [API サービス](./API_README.md)
+- [idress_converter モジュール](./docs/CONVERTER.md)
+- [idress_validator モジュール](./docs/VALIDATOR.md)
+- [idress_repository モジュール](./docs/REPOSITORY.md)
+- [API サービス](./docs/API_README.md)
 
 ## 開発者向け情報
 

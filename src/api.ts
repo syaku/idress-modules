@@ -16,7 +16,7 @@ const repository = new MemoryRepository();
 
 // ルートエンドポイント
 app.get('/', (c) => {
-  return c.text('idress API サーバー - /convert, /validate, /store, /get/:name エンドポイントが利用可能です');
+  return c.text('idress API サーバー - /convert, /validate, /store, /get/:name, /list エンドポイントが利用可能です');
 });
 
 // テキスト形式をJSONに変換するエンドポイント

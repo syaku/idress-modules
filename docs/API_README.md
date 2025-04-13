@@ -6,8 +6,8 @@
 
 - [Hono](https://hono.dev/) - 軽量で高速なWebフレームワーク
 - [TypeScript](https://www.typescriptlang.org/) - 型安全なJavaScript
-- [idress_converter](./idress_converter.ts) - テキスト形式とJSONの相互変換モジュール
-- [idress_validator](./idress_validator.ts) - データの検証と問題点の検出モジュール
+- [idress_converter](../src/idress_converter.ts) - テキスト形式とJSONの相互変換モジュール
+- [idress_validator](../src/idress_validator.ts) - データの検証と問題点の検出モジュール
 
 ## インストール
 
