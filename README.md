@@ -9,7 +9,6 @@
 - テキスト形式 ⇔ TypeScriptオブジェクト ⇔ YAML形式の相互変換
 - アイドレスデータの操作（スキルの追加・更新・削除など）
 - アイドレスデータの検証（必須項目、値の範囲、タイプ、マークなど）
-- ファイル操作（読み込み・書き込み・変換）
 
 ## モジュール
 
@@ -65,23 +64,25 @@ await repo.delete('サンプルキャラクター');
 ```typescript
 import * as converter from './idress_converter';
 
-// テキストファイルをYAMLファイルに変換
-converter.convertTextToYaml('ストラクチャーサンプル.txt', 'ストラクチャーサンプル.yml');
+// テキスト形式からオブジェクトに変換
+const text = `A：１：名前：サンプルキャラクター
+オーナー：サンプルオーナー
+タイプ：キャラクター
+スケール：３`;
+const data = converter.textToObject(text);
 
-// オブジェクトの取得と操作
-const data = converter.getIdressObject('ストラクチャーサンプル.yml', 'yaml');
+// オブジェクトの操作
 const updatedData = converter.addSkill(data, '特殊', 10, '海の祝福', '海の生物から特別な力を得る能力。');
-converter.writeYamlFile(updatedData, 'ストラクチャーサンプル_編集済み.yml');
+
+// オブジェクトをYAML形式に変換
+const yamlContent = converter.objectToYaml(updatedData);
+console.log(yamlContent);
 ```
 
 ### 検証と修正
 
 ```typescript
-import { readYamlFile } from './idress_converter';
 import { validateIdressData, displayValidationResult } from './idress_validator';
-
-// YAMLファイルを読み込み
-const data = readYamlFile('ストラクチャーサンプル.yml');
 
 // データの検証
 const result = validateIdressData(data);
@@ -150,7 +151,6 @@ npm run build && node dist/validator_test.js
 - `idress_validator.ts`: 検証・修正モジュール
 - `idress_repository.ts`: リポジトリインターフェース
 - `memory_repository.ts`: インメモリリポジトリ実装
-- `file_system_repository.ts`: ファイルシステムリポジトリ実装
 - `converter_demo.ts`: 基本的な変換処理のデモ
 - `validator_demo.ts`: 検証・修正のデモ
 - `repository_demo.ts`: リポジトリ操作のデモ

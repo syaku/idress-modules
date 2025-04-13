@@ -75,19 +75,28 @@ npm run api:start
 #### 変換エンドポイントの使用例（curl）
 
 ```bash
-curl -X POST -H "Content-Type: text/plain" --data-binary @test/オブジェクトサンプル.txt http://localhost:8787/convert
+curl -X POST -H "Content-Type: text/plain" --data "A：１：名前：サンプルキャラクター
+オーナー：サンプルオーナー
+タイプ：キャラクター
+スケール：３" http://localhost:8787/convert
 ```
 
 #### 検証エンドポイントの使用例（curl）
 
 ```bash
-curl -X POST -H "Content-Type: text/plain" --data-binary @test/オブジェクトサンプル.txt http://localhost:8787/validate
+curl -X POST -H "Content-Type: text/plain" --data "A：１：名前：サンプルキャラクター
+オーナー：サンプルオーナー
+タイプ：キャラクター
+スケール：３" http://localhost:8787/validate
 ```
 
 #### 保存エンドポイントの使用例（curl）
 
 ```bash
-curl -X POST -H "Content-Type: text/plain" --data-binary @test/オブジェクトサンプル.txt http://localhost:8787/store
+curl -X POST -H "Content-Type: text/plain" --data "A：１：名前：サンプルキャラクター
+オーナー：サンプルオーナー
+タイプ：キャラクター
+スケール：３" http://localhost:8787/store
 ```
 
 #### 取得エンドポイントの使用例（curl）
@@ -105,10 +114,13 @@ node test/test_get.js
 ```javascript
 // axios を使用した例
 const axios = require('axios');
-const fs = require('fs');
 
 async function processText() {
-  const textData = fs.readFileSync('test/オブジェクトサンプル.txt', 'utf-8');
+  // テキストデータを直接指定
+  const textData = `A：１：名前：サンプルキャラクター
+オーナー：サンプルオーナー
+タイプ：キャラクター
+スケール：３`;
   
   try {
     // 変換リクエスト

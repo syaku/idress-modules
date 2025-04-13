@@ -94,10 +94,22 @@ IdressDataオブジェクトを検証します。
 
 **例:**
 ```typescript
-import { readYamlFile } from './idress_converter';
+import { yamlToObject } from './idress_converter';
 import { validateIdressData } from './idress_validator';
 
-const data = readYamlFile('オブジェクトサンプル.yml');
+// YAML文字列からオブジェクトに変換
+const yamlString = `
+オーナー: サンプルオーナー
+タイプ: キャラクター
+オブジェクトタイプ: オブジェクト
+スケール: 3
+データ:
+  - マーク: A
+    ナンバー: 1
+    名前: 名前
+    説明: サンプルキャラクター
+`;
+const data = yamlToObject(yamlString);
 const result = validateIdressData(data);
 
 console.log(`検証結果: ${result.isValid ? '有効' : '無効'}`);
@@ -117,10 +129,22 @@ console.log(`検出された問題: ${result.items.length}件`);
 
 **例:**
 ```typescript
-import { readYamlFile } from './idress_converter';
+import { yamlToObject } from './idress_converter';
 import { validateWithCustomRules, createValidationRule, ValidationSeverity } from './idress_validator';
 
-const data = readYamlFile('オブジェクトサンプル.yml');
+// YAML文字列からオブジェクトに変換
+const yamlString = `
+オーナー: サンプルオーナー
+タイプ: キャラクター
+オブジェクトタイプ: オブジェクト
+スケール: 3
+データ:
+  - マーク: A
+    ナンバー: 1
+    名前: 名前
+    説明: サンプルキャラクター
+`;
+const data = yamlToObject(yamlString);
 
 // カスタム検証ルールの定義
 const customRules = [
@@ -156,10 +180,22 @@ console.log(`検証結果: ${result.isValid ? '有効' : '無効'}`);
 
 **例:**
 ```typescript
-import { readYamlFile } from './idress_converter';
+import { yamlToObject } from './idress_converter';
 import { validateIdressData, displayValidationResult } from './idress_validator';
 
-const data = readYamlFile('オブジェクトサンプル.yml');
+// YAML文字列からオブジェクトに変換
+const yamlString = `
+オーナー: サンプルオーナー
+タイプ: キャラクター
+オブジェクトタイプ: オブジェクト
+スケール: 3
+データ:
+  - マーク: A
+    ナンバー: 1
+    名前: 名前
+    説明: サンプルキャラクター
+`;
+const data = yamlToObject(yamlString);
 const result = validateIdressData(data);
 
 displayValidationResult(result);
@@ -177,15 +213,26 @@ displayValidationResult(result);
 
 **例:**
 ```typescript
-import { readYamlFile } from './idress_converter';
+import { yamlToObject } from './idress_converter';
 import { validateIdressData, getValidationResultText } from './idress_validator';
-import * as fs from 'fs';
 
-const data = readYamlFile('オブジェクトサンプル.yml');
+// YAML文字列からオブジェクトに変換
+const yamlString = `
+オーナー: サンプルオーナー
+タイプ: キャラクター
+オブジェクトタイプ: オブジェクト
+スケール: 3
+データ:
+  - マーク: A
+    ナンバー: 1
+    名前: 名前
+    説明: サンプルキャラクター
+`;
+const data = yamlToObject(yamlString);
 const result = validateIdressData(data);
 const resultText = getValidationResultText(result);
 
-fs.writeFileSync('検証結果.txt', resultText, 'utf-8');
+console.log(resultText);
 ```
 
 ## カスタム検証ルール関数
@@ -289,11 +336,22 @@ const ownerPatternRule = patternRule(
 ### 基本的な検証
 
 ```typescript
-import { readYamlFile } from './idress_converter';
 import { validateIdressData, displayValidationResult } from './idress_validator';
+import { yamlToObject } from './idress_converter';
 
-// YAMLファイルを読み込み
-const data = readYamlFile('オブジェクトサンプル.yml');
+// YAML文字列からオブジェクトに変換
+const yamlString = `
+オーナー: サンプルオーナー
+タイプ: キャラクター
+オブジェクトタイプ: オブジェクト
+スケール: 3
+データ:
+  - マーク: A
+    ナンバー: 1
+    名前: 名前
+    説明: サンプルキャラクター
+`;
+const data = yamlToObject(yamlString);
 
 // データの検証
 const result = validateIdressData(data);
@@ -312,7 +370,6 @@ if (result.isValid) {
 ### カスタム検証ルールの適用
 
 ```typescript
-import { readYamlFile } from './idress_converter';
 import { 
     validateWithCustomRules, 
     displayValidationResult, 
@@ -322,9 +379,21 @@ import {
     patternRule, 
     ValidationSeverity 
 } from './idress_validator';
+import { yamlToObject } from './idress_converter';
 
-// YAMLファイルを読み込み
-const data = readYamlFile('オブジェクトサンプル.yml');
+// YAML文字列からオブジェクトに変換
+const yamlString = `
+オーナー: サンプルオーナー
+タイプ: キャラクター
+オブジェクトタイプ: オブジェクト
+スケール: 3
+データ:
+  - マーク: A
+    ナンバー: 1
+    名前: 名前
+    説明: サンプルキャラクター
+`;
+const data = yamlToObject(yamlString);
 
 // カスタム検証ルールの定義
 const customRules = [
@@ -358,49 +427,49 @@ const result = validateWithCustomRules(data, customRules);
 displayValidationResult(result);
 ```
 
-### ファイルの検証と修正
+### データの検証と自動修正
 
 ```typescript
-import * as fs from 'fs';
-import * as path from 'path';
-import { readYamlFile, writeYamlFile, IdressData } from './idress_converter';
 import { validateIdressData, displayValidationResult } from './idress_validator';
+import { yamlToObject, objectToYaml } from './idress_converter';
+import { IdressData } from './idress_converter';
 
-/**
- * ファイルを検証し、問題があれば修正する
- * @param filePath ファイルパス
- * @param autoFix 自動修正を行うかどうか
- */
-function validateAndFixFile(filePath: string, autoFix: boolean = false): void {
-    console.log(`\n=== ${path.basename(filePath)} の検証と修正 ===`);
+// YAML文字列からオブジェクトに変換
+const yamlString = `
+オーナー: 
+タイプ: 不明
+オブジェクトタイプ: 不明
+スケール: 不正な値
+データ:
+  - マーク: A
+    ナンバー: 1
+    名前: 名前
+    説明: サンプルキャラクター
+`;
+const data = yamlToObject(yamlString);
+
+// データの検証
+const result = validateIdressData(data);
+
+// 検証結果の表示
+displayValidationResult(result);
+
+// 自動修正が必要な場合
+if (!result.isValid) {
+    console.log('\n自動修正を実行します...');
     
-    // ファイルの読み込み
-    const data = readYamlFile(filePath);
+    // データの修正
+    const fixedData = fixData(data, result);
     
-    // 検証の実行
-    const result = validateIdressData(data);
+    // 修正後のデータをYAML形式で表示
+    const fixedYaml = objectToYaml(fixedData);
+    console.log('\n修正後のデータ:');
+    console.log(fixedYaml);
     
-    // 結果の表示
-    displayValidationResult(result);
-    
-    // 自動修正が有効な場合
-    if (autoFix && !result.isValid) {
-        console.log('\n自動修正を実行します...');
-        
-        // データの修正
-        const fixedData = fixData(data, result);
-        
-        // 修正後のデータを保存
-        const fixedFilePath = `${path.basename(filePath, path.extname(filePath))}_fixed${path.extname(filePath)}`;
-        writeYamlFile(fixedData, fixedFilePath);
-        
-        console.log(`修正済みデータを ${fixedFilePath} に保存しました。`);
-        
-        // 修正後のデータを再検証
-        console.log('\n修正後のデータを再検証します...');
-        const fixedResult = validateIdressData(fixedData);
-        displayValidationResult(fixedResult);
-    }
+    // 修正後のデータを再検証
+    console.log('\n修正後のデータを再検証します...');
+    const fixedResult = validateIdressData(fixedData);
+    displayValidationResult(fixedResult);
 }
 
 /**
@@ -444,6 +513,3 @@ function fixData(data: IdressData, validationResult: any): IdressData {
     
     return fixedData;
 }
-
-// 使用例
-validateAndFixFile('オブジェクトサンプル.yml', true);

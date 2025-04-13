@@ -362,51 +362,67 @@ console.log(halfWidth); // '123'
 ### 基本的な変換
 
 ```typescript
-import * as fs from 'fs';
 import * as converter from './idress_converter';
 
-// テキストファイルをYAMLファイルに変換
-const textContent = fs.readFileSync('オブジェクトサンプル.txt', 'utf-8');
-const data = converter.textToObject(textContent);
-const yamlContent = converter.objectToYaml(data);
-fs.writeFileSync('オブジェクトサンプル.yml', yamlContent, 'utf-8');
-console.log(`テキストファイルをYAMLファイルに変換しました。`);
+// テキスト形式からオブジェクトに変換
+const text = `A：１：名前：サンプルキャラクター
+オーナー：サンプルオーナー
+タイプ：キャラクター
+スケール：３`;
+const data = converter.textToObject(text);
+console.log(data);
 
-// YAMLファイルをテキストファイルに変換
-const yamlContent2 = fs.readFileSync('オブジェクトサンプル.yml', 'utf-8');
-const data2 = converter.yamlToObject(yamlContent2);
-const textContent2 = converter.objectToText(data2);
-fs.writeFileSync('オブジェクトサンプル_変換結果.txt', textContent2, 'utf-8');
-console.log(`YAMLファイルをテキストファイルに変換しました。`);
+// オブジェクトからYAML形式に変換
+const yamlContent = converter.objectToYaml(data);
+console.log(yamlContent);
+
+// YAML形式からオブジェクトに変換
+const yamlString = `
+オーナー: サンプルオーナー
+タイプ: キャラクター
+オブジェクトタイプ: オブジェクト
+スケール: 3
+データ:
+  - マーク: A
+    ナンバー: 1
+    名前: 名前
+    説明: サンプルキャラクター
+`;
+const dataFromYaml = converter.yamlToObject(yamlString);
+console.log(dataFromYaml);
+
+// オブジェクトからテキスト形式に変換
+const textContent = converter.objectToText(dataFromYaml);
+console.log(textContent);
 ```
 
 ### オブジェクトの取得と表示
 
 ```typescript
-import * as fs from 'fs';
 import * as converter from './idress_converter';
 
-// テキストファイルからオブジェクトを取得
-const textContent = fs.readFileSync('オブジェクトサンプル.txt', 'utf-8');
-const textData = converter.textToObject(textContent);
-
-// YAMLファイルからオブジェクトを取得
-const yamlContent = fs.readFileSync('オブジェクトサンプル.yml', 'utf-8');
-const yamlData = converter.yamlToObject(yamlContent);
+// テキスト形式からオブジェクトに変換
+const text = `A：１：名前：サンプルキャラクター
+オーナー：サンプルオーナー
+タイプ：キャラクター
+スケール：３`;
+const data = converter.textToObject(text);
 
 // オブジェクトの内容を表示
-converter.displayIdressObject(yamlData);
+converter.displayIdressObject(data);
 ```
 
 ### スキルの追加・更新・削除
 
 ```typescript
-import * as fs from 'fs';
 import * as converter from './idress_converter';
 
-// YAMLファイルからオブジェクトを取得
-const yamlContent = fs.readFileSync('オブジェクトサンプル.yml', 'utf-8');
-const data = converter.yamlToObject(yamlContent);
+// テキスト形式からオブジェクトに変換
+const text = `A：１：名前：サンプルキャラクター
+オーナー：サンプルオーナー
+タイプ：キャラクター
+スケール：３`;
+const data = converter.textToObject(text);
 
 // スキルを追加（キャラクタータイプでは「情報」マークが使用可能）
 const dataWithNewSkill = converter.addSkill(data, '情報', 8, 'スキル３', '情報収集と分析を得意とする能力');
@@ -417,12 +433,12 @@ const dataWithUpdatedSkill = converter.updateSkill(dataWithNewSkill, 'スキル�
 });
 
 // スキルを削除
-const dataWithRemovedSkill = converter.removeSkill(dataWithUpdatedSkill, 'スキル２');
+const dataWithRemovedSkill = converter.removeSkill(dataWithUpdatedSkill, 'スキル３');
 
-// YAMLファイルに保存
+// 結果をYAML形式で表示
 const yamlOutput = converter.objectToYaml(dataWithRemovedSkill);
-fs.writeFileSync('オブジェクトサンプル_編集済み.yml', yamlOutput, 'utf-8');
+console.log(yamlOutput);
 
-// テキストファイルに保存
+// 結果をテキスト形式で表示
 const textOutput = converter.objectToText(dataWithRemovedSkill);
-fs.writeFileSync('オブジェクトサンプル_編集済み.txt', textOutput, 'utf-8');
+console.log(textOutput);
