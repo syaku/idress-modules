@@ -122,6 +122,7 @@ npm run api:start
 
 ## 詳細ドキュメント
 
+- [アーキテクチャ構成図](./docs/ARCHITECTURE.md)
 - [idress_converter モジュール](./docs/CONVERTER.md)
 - [idress_validator モジュール](./docs/VALIDATOR.md)
 - [idress_repository モジュール](./docs/REPOSITORY.md)
