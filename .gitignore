@@ -141,9 +141,9 @@ dist
 # Change them to your taste:
 wrangler.toml
 
-./docs/アイドレスについて.md
-./docs/デフォルトC＋ ルールブック概要.md
+docs/アイドレスについて.md
+docs/デフォルトC＋ ルールブック概要.md
 
-./test/*.txt
-./test/*.yml
-./test/*.json
+test/*.txt
+test/*.yml
+test/*.json
