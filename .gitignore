@@ -141,6 +141,7 @@ dist
 # Change them to your taste:
 wrangler.toml
 
+# アイドレスの説明用なので除外
 docs/アイドレスについて.md
 docs/デフォルトC＋ ルールブック概要.md
 
