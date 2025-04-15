@@ -144,6 +144,8 @@ wrangler.toml
 docs/アイドレスについて.md
 docs/デフォルトC＋ ルールブック概要.md
 
+test/sample/*.txt
+test/sample/*.yml
 test/*.txt
 test/*.yml
 test/*.json

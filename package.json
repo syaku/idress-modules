@@ -7,7 +7,7 @@
     "build:prod": "tsc -p tsconfig.prod.json",
     "dev": "wrangler dev src/api.ts",
     "deploy": "wrangler deploy src/api.ts",
-    "test": "node test/test.js"
+    "test:convert": "npx ts-node --project tsconfig.test.json test/converter/converter_test.ts"
   },
   "dependencies": {
     "hono": "^4.7.6",
