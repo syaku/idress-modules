@@ -1,12 +1,5 @@
-/**
- * Cloudflare KV Repositoryのテスト
- * 
- * このファイルはCloudflare KV Repositoryの動作をテストするためのものです。
- * 実際のKV Namespaceを使用するため、Cloudflare Workersの環境で実行する必要があります。
- */
-
-import { IdressData } from '../src/idress_converter';
-import { CloudflareKVRepositoryFactory } from '../src/cloudflare_kv_repository';
+import { IdressData } from '../../src/idress_converter';
+import { CloudflareKVRepositoryFactory } from '../../src/cloudflare_kv_repository';
 
 // KV Namespaceの型定義（テスト用）
 declare const IDRESS_KV: KVNamespace;
@@ -23,7 +16,7 @@ function createTestData(name: string): IdressData {
         スケール: 3,
         データ: [
             {
-                マーク: '情報',
+                マーク: '知識',
                 ナンバー: 1,
                 名前: '名前',
                 説明: name

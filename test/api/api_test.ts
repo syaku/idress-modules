@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as path from 'path';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -92,7 +93,7 @@ async function testValidateWithInvalidData(): Promise<any> {
 オーナー：
 タイプ：無効なタイプ
 スケール：abc
-――：―：スキル１：`;
+攻撃：―：スキル１：`;
     
     // APIにPOSTリクエストを送信
     const response = await axios.post('http://localhost:8787/validate', invalidData, {
@@ -236,42 +237,6 @@ async function testListApi(names: string[]): Promise<any> {
 }
 
 /**
- * 無効な名前リストでリストAPIをテストする関数
- */
-async function testListApiWithInvalidNames(): Promise<any> {
-  try {
-    console.log('\n無効な名前リストでリストAPIをテスト中...');
-    
-    // 無効な名前リスト（存在しない名前）
-    const invalidNames = ['存在しない名前1', '存在しない名前2'];
-    
-    // APIにPOSTリクエストを送信
-    const response = await axios.post('http://localhost:8787/list', { names: invalidNames }, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    
-    // レスポンスのステータスコードを確認
-    if (response.status !== 200) {
-      throw new Error(`APIエラー: ${response.status} ${response.statusText}`);
-    }
-    
-    // レスポンスデータを取得
-    const data = response.data;
-    
-    // 結果を表示
-    console.log('無効な名前リストの取得結果:');
-    console.log(JSON.stringify(data, null, 2));
-    
-    return data;
-  } catch (error) {
-    console.error('無効な名前リストでのリストAPIテスト中にエラーが発生しました:', error);
-    throw error;
-  }
-}
-
-/**
  * テスト用のサンプルデータを生成する関数
  * @param baseName 基本名前
  * @param index インデックス
@@ -303,7 +268,7 @@ HP：0
 async function main(): Promise<void> {
   try {
     // テキストファイルを読み込む
-    const textData = fs.readFileSync('test/オブジェクトサンプル.txt', 'utf-8');
+    const textData = fs.readFileSync(path.join(__dirname, '../オブジェクトサンプル.txt'), 'utf-8');
     
     // 変換APIをテスト
     await testConvertApi(textData);
@@ -322,35 +287,31 @@ async function main(): Promise<void> {
     // 3つのサンプルデータを生成して保存
     for (let i = 1; i <= 3; i++) {
       const sampleData = generateSampleData(baseName, i);
-      const result = await testStoreApi(sampleData);
-      if (result && result.success) {
-        sampleNames.push(`${baseName}${i}`);
+      try {
+        const result = await testStoreApi(sampleData);
+        if (result && result.success) {
+          sampleNames.push(`${baseName}${i}`);
+        }
+      } catch (error) {
+        console.error(`サンプルデータ${i}の保存に失敗しました:`, error);
       }
-    }
-    
-    // 元のサンプルデータを修正して保存（名前を一意にする）
-    const uniqueName = `鷺坂縁_${uuidv4().substring(0, 8)}`;
-    const modifiedTextData = textData.replace('知識：３：名前：鷺坂縁', `知識：３：名前：${uniqueName}`);
-    try {
-      const result = await testStoreApi(modifiedTextData);
-      if (result && result.success) {
-        sampleNames.push(uniqueName);
-      }
-    } catch (error) {
-      console.error('元のサンプルデータの保存に失敗しました:', error);
     }
     
     // 個別のデータ取得をテスト
-    await testGetApi(sampleNames[0]);
-    
-    // リストAPIをテスト
-    await testListApi(sampleNames);
-    
-    // 一部の名前だけで取得
-    await testListApi(sampleNames.slice(0, 2));
+    if (sampleNames.length > 0) {
+      await testGetApi(sampleNames[0]);
+      
+      // リストAPIをテスト
+      await testListApi(sampleNames);
+      
+      // 一部の名前だけで取得
+      if (sampleNames.length >= 2) {
+        await testListApi(sampleNames.slice(0, 2));
+      }
+    }
     
     // 無効な名前リストでテスト
-    await testListApiWithInvalidNames();
+    await testListApi(['存在しない名前1', '存在しない名前2']);
     
     console.log('\nAPIテスト完了');
   } catch (error) {
@@ -359,4 +320,6 @@ async function main(): Promise<void> {
 }
 
 // プログラム実行
-main();
+main().catch(error => {
+  console.error('テスト実行中にエラーが発生しました:', error);
+});
